@@ -81,6 +81,8 @@ CONF_FAN_DIRECTION = "fan_direction"
 CONF_FAN_DIRECTION_FWD = "fan_direction_forward"
 CONF_FAN_DIRECTION_REV = "fan_direction_reverse"
 CONF_FAN_DPS_TYPE = "fan_dps_type"
+CONF_TEMP_MAX = "max_temp"
+CONF_TEMP_MIN = "min_temp"
 
 # sensor
 CONF_SCALING = "scaling"
