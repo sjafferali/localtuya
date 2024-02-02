@@ -44,6 +44,8 @@ from .const import (
     CONF_MAX_TEMP_DP,
     CONF_MIN_TEMP_DP,
     CONF_PRECISION,
+    CONF_TEMP_MAX,
+    CONF_TEMP_MIN,
     CONF_PRESET_DP,
     CONF_PRESET_SET,
     CONF_TARGET_PRECISION,
@@ -117,6 +119,8 @@ def flow_schema(dps):
     """Return schema used in config flow."""
     return {
         vol.Optional(CONF_TARGET_TEMPERATURE_DP): vol.In(dps),
+        vol.Optional(CONF_TEMP_MIN, default=DEFAULT_MIN_TEMP): vol.Coerce(float),
+        vol.Optional(CONF_TEMP_MAX, default=DEFAULT_MAX_TEMP): vol.Coerce(float),
         vol.Optional(CONF_CURRENT_TEMPERATURE_DP): vol.In(dps),
         vol.Optional(CONF_TEMPERATURE_STEP): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
@@ -340,6 +344,8 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
         """Return the minimum temperature."""
         if self.has_config(CONF_MIN_TEMP_DP):
             return self.dps_conf(CONF_MIN_TEMP_DP)
+        if self.has_config(CONF_TEMP_MIN):
+            return self._config[CONF_TEMP_MIN]
         # DEFAULT_MIN_TEMP is in C
         if self.temperature_unit == UnitOfTemperature.FAHRENHEIT:
             return DEFAULT_MIN_TEMP * 1.8 + 32
@@ -351,6 +357,8 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
         """Return the maximum temperature."""
         if self.has_config(CONF_MAX_TEMP_DP):
             return self.dps_conf(CONF_MAX_TEMP_DP)
+        if self.has_config(CONF_TEMP_MAX):
+            return self._config[CONF_TEMP_MAX]
         # DEFAULT_MAX_TEMP is in C
         if self.temperature_unit == UnitOfTemperature.FAHRENHEIT:
             return DEFAULT_MAX_TEMP * 1.8 + 32
